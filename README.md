@@ -8,3 +8,28 @@
 
 ## 💡 简介
 一个自用的 Spigot/Paper Kotlin 插件核心
+
+## 🖊️ 使用
+
+### 依赖[^1]
+```gradle
+repositories {
+	maven { url 'https://jitpack.io' }
+}
+```
+```gradle
+dependencies {
+	implementation 'com.github.imfanhua:piggies:版本'
+}
+```
+----
+```gradle
+repositories {
+	maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+	implementation 'com.github.imfanhua:piggies:3.1.0'
+}
+```
+[^1]: [🗃️所有可用的版本](https://github.com/imfanhua/piggies/tags)
