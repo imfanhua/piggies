@@ -5,6 +5,7 @@ import me.fanhua.piggies.tools.data.asString
 import me.fanhua.piggies.tools.data.get
 import me.fanhua.piggies.tools.plugins.logger
 import me.fanhua.piggies.tools.plugins.title
+import kotlin.math.log
 
 object Piggies : PiggyPlugin() {
 

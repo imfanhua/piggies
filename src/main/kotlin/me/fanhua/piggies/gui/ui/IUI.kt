@@ -6,8 +6,8 @@ import org.bukkit.event.inventory.ClickType
 interface IUI {
 
 	fun redraw(): Boolean
-	fun update()
+	fun update() {}
 	fun draw(canvas: IUICanvas)
-	fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean
+	fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean = false
 
 }

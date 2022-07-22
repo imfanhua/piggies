@@ -5,6 +5,7 @@ import me.fanhua.piggies.gui.impl.ChestInventoryFactory
 import me.fanhua.piggies.gui.impl.SyncInvImpl
 import me.fanhua.piggies.gui.impl.TypedInventory
 import me.fanhua.piggies.ticks.events.ServerTickEvent
+import me.fanhua.piggies.tools.plugins.logger
 import me.fanhua.piggies.tools.plugins.on
 import me.fanhua.piggies.tools.void
 import org.bukkit.Bukkit
@@ -52,6 +53,8 @@ object GUI {
 			}
 
 		})
+
+		Piggies.logger.info("+ #[GUI]")
 	}
 
 	class PatternBuilder internal constructor(private val lines: Array<out String>) {
@@ -85,6 +88,7 @@ object GUI {
 
 	val MIN: IInventoryFactory = ChestInventoryFactory(1)
 	val NORMAL: IInventoryFactory = ChestInventoryFactory(3)
+	val PLAYER: IInventoryFactory = ChestInventoryFactory(5)
 	val MAX: IInventoryFactory = ChestInventoryFactory(6)
 
 	fun sizeOf(size: Int): IInventoryFactory = ChestInventoryFactory(size / 9 * 9)

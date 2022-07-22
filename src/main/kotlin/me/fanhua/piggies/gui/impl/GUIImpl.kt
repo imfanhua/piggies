@@ -7,7 +7,6 @@ import me.fanhua.piggies.tools.void
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
-import java.util.function.BiConsumer
 
 internal class GUIImpl(factory: IInventoryFactory, override val title: String) : IGUI {
 
@@ -19,14 +18,14 @@ internal class GUIImpl(factory: IInventoryFactory, override val title: String) :
 	override val ui: MutableList<IUI> = ArrayList()
 	private val canvas = InvUICanvasImpl(size, inventory)
 
-	private val closeHandlers = arrayListOf<BiConsumer<IGUI, Player>>()
+	private val closeHandlers = arrayListOf<IGUI.(Player) -> Unit>()
 
-	override fun onClose(closeHandler: BiConsumer<IGUI, Player>) = apply {
+	override fun onClose(closeHandler: IGUI.(Player) -> Unit) = apply {
 		closeHandlers.remove(closeHandler)
 		closeHandlers.add(closeHandler)
 	}
 
-	override fun removeCloseHandler(closeHandler: BiConsumer<IGUI, Player>)
+	override fun removeCloseHandler(closeHandler: IGUI.(Player) -> Unit)
 		= closeHandlers.remove(closeHandler).void()
 	override fun clearCloseHandlers() = closeHandlers.clear()
 	override fun clearAllHandlers() = closeHandlers.clear()
@@ -58,7 +57,7 @@ internal class GUIImpl(factory: IInventoryFactory, override val title: String) :
 
 	override fun whenClose(event: InventoryCloseEvent) {
 		val player = event.player as? Player ?: return
-		for (handler in closeHandlers) handler.accept(this, player)
+		for (handler in closeHandlers) handler(this, player)
 	}
 
 	override fun <T : IUI> add(ui: T) = ui.apply {

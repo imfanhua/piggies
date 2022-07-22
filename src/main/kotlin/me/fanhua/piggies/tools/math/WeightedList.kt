@@ -8,8 +8,8 @@ class WeightedList<T>() {
 	private val map: NavigableMap<Double, T> = TreeMap()
 	private var total = 0.0
 
-	constructor(vararg list: Pair<Double, T>) : this() {
-		for ((weight, item) in list) {
+	constructor(vararg elements: Pair<Double, T>) : this() {
+		for ((weight, item) in elements) {
 			total += weight
 			map[total] = item
 		}
@@ -28,3 +28,7 @@ class WeightedList<T>() {
 	val next get() = get(Random.nextDouble())
 
 }
+
+fun <T> weightedListOf() = WeightedList<T>()
+
+fun <T> weightedListOf(vararg elements: Pair<Double, T>) = WeightedList(*elements)

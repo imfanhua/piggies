@@ -3,6 +3,7 @@ package me.fanhua.piggies.players.events
 import me.fanhua.piggies.Piggies
 import me.fanhua.piggies.players.PlayerLastSneak
 import me.fanhua.piggies.tools.plugins.fire
+import me.fanhua.piggies.tools.plugins.logger
 import me.fanhua.piggies.tools.plugins.on
 import org.bukkit.entity.Player
 import org.bukkit.event.*
@@ -27,6 +28,8 @@ class PlayerSneakSwapEvent(who: Player) : PlayerEvent(who), Cancellable {
 				}
 
 			})
+
+			Piggies.logger.info("+ #[PlayerSneakSwapEvent]")
 		}
 
 	}

@@ -3,14 +3,13 @@ package me.fanhua.piggies.gui.ui
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
-import java.util.function.BiConsumer
 import kotlin.properties.Delegates
 
 class UIButton(
 	x: Int,
 	y: Int,
 	icon: ItemStack? = null,
-	var handler: BiConsumer<Player, ClickType>? = null,
+	var handler: (Player.(ClickType) -> Unit)? = null,
 ) : IUI {
 
 	var x by Delegates.observable(x) { _, _, _ -> redraw = true }
@@ -22,7 +21,6 @@ class UIButton(
 
 	override fun redraw(): Boolean = redraw
 
-	override fun update() {}
 	override fun draw(canvas: IUICanvas) {
 		redraw = false
 		icon?.let { canvas.draw(x, y, it) }
@@ -30,7 +28,7 @@ class UIButton(
 
 	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean {
 		if (this.x != x || this.y != y) return false
-		handler?.accept(clicker, type)
+		handler?.invoke(clicker, type)
 		return true
 	}
 

@@ -6,7 +6,7 @@ import org.bukkit.Bukkit
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 
-internal class ChestInventoryFactory constructor(lines: Int) : IInventoryFactory {
+internal class ChestInventoryFactory(lines: Int) : IInventoryFactory {
 
 	override val size = GUISize(9, lines)
 

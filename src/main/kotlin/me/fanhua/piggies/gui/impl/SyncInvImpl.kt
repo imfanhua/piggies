@@ -1,7 +1,7 @@
 package me.fanhua.piggies.gui.impl
 
 import me.fanhua.piggies.Piggies
-import me.fanhua.piggies.gui.GUI.linesOf
+import me.fanhua.piggies.gui.GUI
 import me.fanhua.piggies.gui.IBaseGUI
 import me.fanhua.piggies.tools.data.holders.hold
 import me.fanhua.piggies.tools.plugins.tick
@@ -11,15 +11,15 @@ import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 
-internal class SyncInvImpl constructor(player: Player) : IBaseGUI {
+internal class SyncInvImpl(player: Player) : IBaseGUI {
 
 	companion object {
-		private val FACTORY = linesOf(5)
+		private val FACTORY = GUI.PLAYER
 		private const val SIZE = 41
 	}
 
 	private val target = player.hold
-	private val inventory = FACTORY.create(this, "§7> §e${player.displayName}")
+	private val inventory = FACTORY.create(this, "§7> §0${player.displayName}")
 	override fun getInventory(): Inventory = inventory
 
 	override val size get() = FACTORY.size

@@ -3,7 +3,7 @@ package me.fanhua.piggies.gui.ui
 import me.fanhua.piggies.gui.GUISize
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
-import kotlin.properties.Delegates.observable
+import kotlin.properties.Delegates
 
 class UIGrid constructor(
 	x: Int = 0,
@@ -12,10 +12,10 @@ class UIGrid constructor(
 	height: Int = -1,
 ) : IContainerUI {
 
-	var x by observable(x) { _, _, _ -> redraw = true }
-	var y by observable(y) { _, _, _ -> redraw = true }
-	var width by observable(width) { _, _, _ -> redraw = true }
-	var height by observable(height) { _, _, _ -> redraw = true }
+	var x by Delegates.observable(x) { _, _, _ -> redraw = true }
+	var y by Delegates.observable(y) { _, _, _ -> redraw = true }
+	var width by Delegates.observable(width) { _, _, _ -> redraw = true }
+	var height by Delegates.observable(height) { _, _, _ -> redraw = true }
 
 	private var lastSize: GUISize? = null
 	private var redraw = true

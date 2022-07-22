@@ -50,8 +50,6 @@ abstract class UIList<T>(
 
 	override fun redraw() = redraw
 
-	override fun update() {}
-
 	override fun draw(canvas: IUICanvas) {
 		redraw = false
 		val diff = canvas.diffOf(x, y, width, height)

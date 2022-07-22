@@ -2,6 +2,7 @@ package me.fanhua.piggies.players.events
 
 import me.fanhua.piggies.Piggies
 import me.fanhua.piggies.tools.plugins.fire
+import me.fanhua.piggies.tools.plugins.logger
 import me.fanhua.piggies.tools.plugins.on
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -31,6 +32,8 @@ class PlayerLeaveEvent(who: Player) : PlayerEvent(who) {
 				fun onPlayerKickEvent(event: PlayerKickEvent) = fire(event.player)
 
 			})
+
+			Piggies.logger.info("+ #[PlayerLeaveEvent]")
 		}
 
 		private fun fire(player: Player)

@@ -4,9 +4,11 @@ import kotlinx.serialization.BinaryFormat
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.serializer
+import me.fanhua.piggies.Piggies
 import me.fanhua.piggies.players.events.PlayerLeaveEvent
 import me.fanhua.piggies.parts.impl.SerializerPartFactory
 import me.fanhua.piggies.parts.impl.TempPartFactory
+import me.fanhua.piggies.tools.plugins.logger
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import java.util.*
@@ -25,7 +27,10 @@ object Parts {
 				}
 			}
 
-		fun remove(id: UUID, player: Player) = (parts.remove(id) as? IPlayerPart)?.unload(player)
+		fun remove(id: UUID, player: Player) = parts.remove(id)?.let {
+			(it as? IPlayerPart)?.unload(player)
+			factory.save(player, it)
+		}
 
 	}
 
@@ -36,6 +41,8 @@ object Parts {
 			val player = it.player
 			player.uniqueId.let { id -> PARTS.forEach { part -> part.remove(id, player) } }
 		}
+
+		Piggies.logger.info("+ #[Parts]")
 	}
 
 	@Suppress("OPT_IN_USAGE")

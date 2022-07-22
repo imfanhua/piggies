@@ -5,7 +5,7 @@ import org.bukkit.scoreboard.DisplaySlot
 import org.bukkit.scoreboard.RenderType
 import org.bukkit.scoreboard.Scoreboard
 
-class ListDisplay(scoreboard: Scoreboard, id: String, title: String, slot: DisplaySlot? = DisplaySlot.PLAYER_LIST, render: RenderType = RenderType.INTEGER): ObjectiveBoard(scoreboard, id, title, slot, render) {
+class ListDisplay(scoreboard: Scoreboard, id: String, title: String = id, slot: DisplaySlot? = DisplaySlot.PLAYER_LIST, render: RenderType = RenderType.INTEGER): ObjectiveBoard(scoreboard, id, title, slot, render) {
 
 	operator fun get(entry: String) = objective.getScore(entry).score
 	operator fun set(entry: String, score: Int) { objective.getScore(entry).score = score }

@@ -19,12 +19,9 @@ class UIImage(
 
 	override fun redraw(): Boolean = redraw
 
-	override fun update() {}
 	override fun draw(canvas: IUICanvas) {
 		redraw = false
 		image?.draw(canvas, x, y)
 	}
-
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean = false
 
 }

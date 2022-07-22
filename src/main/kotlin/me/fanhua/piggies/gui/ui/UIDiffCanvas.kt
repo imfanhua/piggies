@@ -8,7 +8,7 @@ class UIDiffCanvas(
 	private val x: Int,
 	private val y: Int,
 	width: Int,
-	height: Int
+	height: Int,
 ) : IUICanvas {
 
 	override val size: GUISize = GUISize(width, height)
