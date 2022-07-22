@@ -1,0 +1,6 @@
+name: Piggies
+version: '@VERSION@'
+main: me.fanhua.piggies.Piggies$IPlugin
+api-version: 1.18
+load: STARTUP
+authors: [ "FanHua (i@fanhua.me)" ]

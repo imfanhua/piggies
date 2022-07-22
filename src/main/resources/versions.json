@@ -1,0 +1,7 @@
+{
+	"kotlin": "@VERSION:KOTLIN@",
+	"coroutines": "@VERSION:COROUTINES@",
+	"serialization": "@VERSION:SERIALIZATION@",
+	"atomicfu": "@VERSION:ATOMICFU@",
+	"datetime": "@VERSION:DATETIME@"
+}
