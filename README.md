@@ -1,4 +1,4 @@
-# piggies
+# Piggies
 [![](https://img.shields.io/badge/V%20ME-50-red?style=for-the-badge&logo=kfc&logoColor=red)](https://afdian.net/@FanHua)
 [![](https://img.shields.io/github/workflow/status/imfanhua/piggies/Build/master?style=for-the-badge)](https://github.com/imfanhua/piggies/actions/workflows/build.yml)
 [![](https://img.shields.io/github/issues/imfanhua/piggies?style=for-the-badge)](https://github.com/imfanhua/piggies/issues)
