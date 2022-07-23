@@ -11,6 +11,9 @@
 
 ## 🖊️ 使用
 
+### 模板
+https://github.com/imfanhua/piggies-template
+
 ### 依赖[^1]
 ```gradle
 repositories {
@@ -32,4 +35,5 @@ dependencies {
 	compileOnly "com.github.imfanhua:piggies:3.6.0"
 }
 ```
+
 [^1]: [🗃️所有可用的版本](https://github.com/imfanhua/piggies/tags)
