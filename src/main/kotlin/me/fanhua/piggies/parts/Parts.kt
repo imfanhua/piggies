@@ -9,6 +9,7 @@ import me.fanhua.piggies.players.events.PlayerLeaveEvent
 import me.fanhua.piggies.parts.impl.SerializerPartFactory
 import me.fanhua.piggies.parts.impl.TempPartFactory
 import me.fanhua.piggies.tools.plugins.logger
+import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import java.util.*
@@ -27,9 +28,16 @@ object Parts {
 				}
 			}
 
-		fun remove(id: UUID, player: Player) = parts.remove(id)?.let {
-			(it as? IPlayerPart)?.unload(player)
-			factory.save(player, it)
+		fun remove(id: UUID, player: Player) = parts.remove(id)?.let { unload(player, it) }
+
+		fun unload(player: Player, part: P) {
+			(part as? IPlayerPart)?.unload(player)
+			factory.save(player, part)
+		}
+
+		fun unloadAll() {
+			parts.forEach { (id, data) -> Bukkit.getPlayer(id)?.let { unload(it, data) } }
+			parts.clear()
 		}
 
 	}
@@ -42,6 +50,9 @@ object Parts {
 			player.uniqueId.let { id -> PARTS.forEach { part -> part.remove(id, player) } }
 		}
 
+		//FIXME:
+		// Piggies.lasts.add(::unloadAll)
+
 		Piggies.logger.info("+ #[Parts]")
 	}
 
@@ -52,5 +63,8 @@ object Parts {
 		= new(SerializerPartFactory(key, format, serializer, factory))
 	fun <P> temp(factory: () -> P): IPart<P> = new(TempPartFactory(factory))
 	fun <P> new(factory: IPartFactory<P>): IPart<P> = Part(factory).apply(PARTS::add)
+
+	private fun unloadAll() =
+		PARTS.forEach(Part<*>::unloadAll)
 
 }

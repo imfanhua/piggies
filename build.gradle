@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 plugins {
 	id "java-library"
 	id "maven-publish"
@@ -27,6 +25,11 @@ kotlin {
 	}
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+	kotlinOptions {
+		jvmTarget = "17"
+	}
+}
 dependencies {
 	compileOnly "io.papermc.paper:paper-api:$bukkit_version"
 
@@ -47,21 +50,7 @@ dependencies {
 	implementation "org.jetbrains.kotlinx:kotlinx-datetime-jvm:$datetime_version"
 }
 
-jar {
-	duplicatesStrategy DuplicatesStrategy.INCLUDE
-	from {
-		configurations.runtimeClasspath
-				.collect { it.isDirectory() ? it : zipTree(it) }
-	} {
-		// @see https://youtrack.jetbrains.com/issue/KT-25709
-		exclude "**/*.kotlin_metadata"
-		exclude "**/*.kotlin_builtins"
-
-		exclude "META-INF/.SF"
-		exclude "META-INF/.DSA"
-		exclude "META-INF/*.RSA"
-	}
-}
+jar {}
 
 java {
 	withSourcesJar()
@@ -71,7 +60,7 @@ java {
 processResources {
 	duplicatesStrategy DuplicatesStrategy.INCLUDE
 	from ("${project.rootDir}/src/main/resources") {
-		filter ReplaceTokens, tokens: [
+		filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
 				"VERSION": project.version,
 				"VERSION:KOTLIN": kotlin_version,
 				"VERSION:COROUTINES": coroutines_version,

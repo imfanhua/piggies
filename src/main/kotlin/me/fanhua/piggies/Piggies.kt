@@ -5,9 +5,10 @@ import me.fanhua.piggies.tools.data.asString
 import me.fanhua.piggies.tools.data.get
 import me.fanhua.piggies.tools.plugins.logger
 import me.fanhua.piggies.tools.plugins.title
-import kotlin.math.log
 
 object Piggies : PiggyPlugin() {
+
+	val lasts: MutableList<() -> Unit> = arrayListOf()
 
 	internal class IPlugin : Plugin(Piggies)
 
@@ -22,6 +23,11 @@ object Piggies : PiggyPlugin() {
 			info("+ AtomicFU: Ver.${versions["atomicfu"].asString}")
 			info("+ Datetime: Ver.${versions["datetime"].asString}")
 		}
+	}
+
+	override fun unload() {
+		lasts.forEach { it() }
+		lasts.clear()
 	}
 
 }
