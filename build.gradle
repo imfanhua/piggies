@@ -10,6 +10,12 @@ plugins {
 group = project.group
 version = project.version
 
+archivesBaseName = "${project.name}-api"
+
+sourceSets {
+	main.kotlin.srcDirs += 'src/main/kotlin'
+}
+
 repositories {
 	mavenCentral()
 	maven { url = 'https://repo.papermc.io/repository/maven-public/' }
@@ -41,33 +47,11 @@ dependencies {
 	implementation "org.jetbrains.kotlinx:kotlinx-datetime-jvm:$datetime_version"
 }
 
-jar {
-	duplicatesStrategy DuplicatesStrategy.EXCLUDE
-	from {
-		configurations.runtimeClasspath
-				.collect { it.isDirectory() ? it : zipTree(it) }
-	} {
-		// @see https://youtrack.jetbrains.com/issue/KT-25709
-		exclude "**/*.kotlin_metadata"
-		exclude "**/*.kotlin_builtins"
-
-		exclude "META-INF/.SF"
-		exclude "META-INF/.DSA"
-		exclude "META-INF/*.RSA"
-	}
-}
+jar {}
 
 java {
 	withSourcesJar()
 	withJavadocJar()
-}
-
-publishing {
-	publications {
-		maven(MavenPublication) {
-			from components.java
-		}
-	}
 }
 
 processResources {
@@ -84,6 +68,30 @@ processResources {
 	}
 }
 
-sourceSets {
-	main.kotlin.srcDirs += 'src/main/kotlin'
+task buildMain(dependsOn: jar, type: Jar) {
+	from {
+		jar.outputs.files.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+	duplicatesStrategy DuplicatesStrategy.EXCLUDE
+	from {
+		configurations.runtimeClasspath
+				.collect { it.isDirectory() ? it : zipTree(it) }
+	} {
+		exclude "META-INF/.SF"
+		exclude "META-INF/.DSA"
+		exclude "META-INF/*.RSA"
+	}
+	archiveFileName = "${project.name}-${project.version}.jar"
+}
+
+artifacts {
+	archives buildMain
+}
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			from components.java
+		}
+	}
 }
