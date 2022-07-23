@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-	compileOnly "com.github.imfanhua:piggies:3.4.0"
+	compileOnly "com.github.imfanhua:piggies:3.5.0"
 }
 ```
 [^1]: [🗃️所有可用的版本](https://github.com/imfanhua/piggies/tags)
