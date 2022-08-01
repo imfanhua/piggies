@@ -91,8 +91,8 @@ object GUI {
 	val PLAYER: IInventoryFactory = ChestInventoryFactory(5)
 	val MAX: IInventoryFactory = ChestInventoryFactory(6)
 
-	fun sizeOf(size: Int): IInventoryFactory = ChestInventoryFactory(size / 9 * 9)
-	fun linesOf(lines: Int): IInventoryFactory = ChestInventoryFactory(lines * 9)
+	fun sizeOf(size: Int): IInventoryFactory = ChestInventoryFactory(size / 9)
+	fun linesOf(lines: Int): IInventoryFactory = ChestInventoryFactory(lines)
 
 	fun syncOf(target: Player): IBaseGUI = SyncInvImpl(target)
 
