@@ -2,9 +2,9 @@ package me.fanhua.piggies.tools.math
 
 import kotlinx.serialization.Serializable
 import org.bukkit.Location
+import org.bukkit.util.NumberConversions.square
 import org.bukkit.util.Vector
 import kotlin.math.*
-import org.bukkit.util.NumberConversions.square
 
 @Serializable
 data class Direction(var pitch: Float, var yaw: Float) {

@@ -1,7 +1,7 @@
 package me.fanhua.piggies.tools.data
 
 import java.math.BigInteger
-import java.util.UUID
+import java.util.*
 
 val String.isUUID: Boolean get() = (length == 36 && get(8) == '-') || length == 32
 

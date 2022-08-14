@@ -3,7 +3,6 @@ package me.fanhua.piggies.gui.ui
 import me.fanhua.piggies.gui.GUISize
 import org.bukkit.inventory.ItemStack
 
-
 interface IUICanvas {
 
 	val size: GUISize
@@ -48,5 +47,13 @@ interface IUICanvas {
 	fun drawVLine(x: Int, y: Int, item: ItemStack?) = drawVLine(x, y, size.lines, item)
 	fun drawVLine(y: Int, item: ItemStack?) = drawVLine(0, y, size.lines, item)
 	fun drawVLine(item: ItemStack?) = drawVLine(size.width - 1, 0, size.lines, item)
+
+	fun fill(x: Int, y: Int, width: Int, height: Int, item: ItemStack? = null) {
+		for (diffY in 0 until height)
+			for (diffX in 0 until width)
+				draw(x + diffX, y + diffY, item)
+	}
+	fun fill(x: Int, y: Int, item: ItemStack? = null) = fill(x, y, size.width - x, size.lines - y, item)
+	fun fill(item: ItemStack? = null) = fill(0, 0, item)
 
 }

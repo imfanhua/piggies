@@ -12,6 +12,7 @@ private val PiggyPlugin.mustCoroutine: PluginCoroutine get()
 	}
 
 val PiggyPlugin.sync: CoroutineContext get() = mustCoroutine.sync
+
 val PiggyPlugin.async: CoroutineContext get() = mustCoroutine.async
 
 fun PiggyPlugin.launch(
@@ -25,4 +26,5 @@ fun PiggyPlugin.launch(
 }
 
 suspend fun <T> PiggyPlugin.sync(block: suspend CoroutineScope.() -> T): T = withContext(sync, block)
+
 suspend fun <T> PiggyPlugin.async(block: suspend CoroutineScope.() -> T): T = withContext(async, block)

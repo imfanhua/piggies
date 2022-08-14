@@ -4,6 +4,7 @@ import org.bukkit.Material
 
 enum class TierItem {
 
+	@Suppress("SpellCheckingInspection")
 	NETHERITE(
 		null,
 		Material.NETHERITE_HELMET,
@@ -69,6 +70,7 @@ enum class TierItem {
 		Material.STONE_SHOVEL
 	),
 
+	@Suppress("SpellCheckingInspection")
 	CHAINMAIL(STONE),
 
 	WOOD(
@@ -92,6 +94,7 @@ enum class TierItem {
 	val next: TierItem?
 
 	val helmet: Material
+	@Suppress("SpellCheckingInspection")
 	val chestplate: Material
 	val leggings: Material
 	val boots: Material
@@ -104,11 +107,13 @@ enum class TierItem {
 	val armors: List<Material>
 	val weapons: List<Material>
 	val tools: List<Material>
-	val useables: List<Material>
+	@Suppress("SpellCheckingInspection")
+	val usables: List<Material>
 
 	constructor(
 		next: TierItem?,
 		helmet: Material,
+		@Suppress("SpellCheckingInspection")
 		chestplate: Material,
 		leggings: Material,
 		boots: Material,
@@ -148,7 +153,7 @@ enum class TierItem {
 			shovel,
 		)
 
-		useables = listOfNotNull(
+		usables = listOfNotNull(
 			sword,
 			axe,
 			pickaxe,
@@ -156,7 +161,7 @@ enum class TierItem {
 			shovel,
 		)
 
-		all = listOf(armors, useables).flatten()
+		all = listOf(armors, usables).flatten()
 	}
 
 	constructor(same: TierItem) {
@@ -175,7 +180,7 @@ enum class TierItem {
 		armors = same.armors
 		weapons = same.weapons
 		tools = same.tools
-		useables = same.useables
+		usables = same.usables
 		all = same.all
 	}
 
@@ -188,6 +193,6 @@ enum class TierItem {
 	fun randomArmor(): Material = armors.random()
 	fun randomWeapon(): Material = weapons.random()
 	fun randomTool(): Material = tools.random()
-	fun randomUseable(): Material = useables.random()
+	fun randomUsable(): Material = usables.random()
 
 }

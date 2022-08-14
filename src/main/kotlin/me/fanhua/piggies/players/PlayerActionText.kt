@@ -30,6 +30,7 @@ object PlayerActionText {
 	}
 
 	fun default(block: (Player) -> BaseComponent?) = apply { defaults.add(block) }
+
 	fun default(block: () -> BaseComponent?) = apply { defaults.add { block() } }
 
 	private fun tick() = Bukkit.getOnlinePlayers().forEach(::displayFor)
@@ -49,7 +50,9 @@ object PlayerActionText {
 		}
 
 	fun show(player: Player, text: TextComponent) = show(player, 60, text)
+
 	fun show(player: Player, text: String) = show(player, 60, TextComponent(text))
+
 	fun show(player: Player, ticks: Int = 60, text: String) = show(player, ticks, TextComponent(text))
 
 	fun clear(player: Player) {

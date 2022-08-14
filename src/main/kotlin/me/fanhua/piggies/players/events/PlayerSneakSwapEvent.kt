@@ -2,19 +2,24 @@ package me.fanhua.piggies.players.events
 
 import me.fanhua.piggies.Piggies
 import me.fanhua.piggies.players.PlayerLastSneak
+import me.fanhua.piggies.plugins.events.CustomEvent
+import me.fanhua.piggies.plugins.events.ICancellable
+import me.fanhua.piggies.plugins.events.IUsable
 import me.fanhua.piggies.tools.plugins.fire
 import me.fanhua.piggies.tools.plugins.logger
 import me.fanhua.piggies.tools.plugins.on
 import org.bukkit.entity.Player
-import org.bukkit.event.*
-import org.bukkit.event.player.*
+import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
 
-class PlayerSneakSwapEvent(who: Player) : PlayerEvent(who), Cancellable {
+class PlayerSneakSwapEvent(who: Player) : PlayerEvent(who), ICancellable, IUsable {
 
-	companion object {
-		private val HANDLERS = HandlerList()
-		@JvmStatic
-		fun getHandlerList() = HANDLERS
+	companion object: CustomEvent() {
+
+		@JvmStatic override fun getHandlerList() = super.getHandlerList()
 
 		init {
 			PlayerLastSneak
@@ -24,7 +29,7 @@ class PlayerSneakSwapEvent(who: Player) : PlayerEvent(who), Cancellable {
 				fun onPlayerSwapHandItemsEvent(event: PlayerSwapHandItemsEvent) {
 					if (!PlayerLastSneak.within(event.player, 1000)) return
 					val result = PlayerSneakSwapEvent(event.player).fire()
-					if (!result.isCancelled && result.isUsed) event.isCancelled = true
+					if (!result.isCancelled && result.isEventUsed) event.isCancelled = true
 				}
 
 			})
@@ -36,12 +41,7 @@ class PlayerSneakSwapEvent(who: Player) : PlayerEvent(who), Cancellable {
 
 	override fun getHandlers() = HANDLERS
 
-	private var isCancelled: Boolean = false
-	var isUsed: Boolean = false
-
-	override fun isCancelled() = isCancelled
-	override fun setCancelled(cancel: Boolean) = run { isCancelled = cancel }
-
-	fun use() = apply { isUsed = true }
+	override var isEventCancelled: Boolean = false
+	override var isEventUsed: Boolean = false
 
 }

@@ -1,23 +1,15 @@
 package me.fanhua.piggies.coroutines.events
 
-import org.bukkit.event.Cancellable
-import org.bukkit.event.HandlerList
+import me.fanhua.piggies.plugins.events.CustomEvent
+import me.fanhua.piggies.plugins.events.ICancellable
 import org.bukkit.event.server.PluginEvent
 import org.bukkit.plugin.Plugin
 
-class PluginCoroutineExceptionEvent(plugin: Plugin, val exception: Throwable) : PluginEvent(plugin), Cancellable {
-
-	companion object {
-		private val HANDLERS = HandlerList()
-		@JvmStatic
-		fun getHandlerList() = HANDLERS
-	}
-
+class PluginCoroutineExceptionEvent(
+	plugin: Plugin,
+	val exception: Throwable,
+) : PluginEvent(plugin), ICancellable {
+	companion object: CustomEvent() { @JvmStatic override fun getHandlerList() = super.getHandlerList() }
 	override fun getHandlers() = HANDLERS
-
-	private var isCancelled: Boolean = false
-
-	override fun isCancelled() = isCancelled
-	override fun setCancelled(cancel: Boolean) = run { isCancelled = cancel }
-
+	override var isEventCancelled: Boolean = false
 }

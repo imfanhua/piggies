@@ -3,22 +3,13 @@ package me.fanhua.piggies.gui.ui
 import me.fanhua.piggies.gui.GUISize
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
-import kotlin.properties.Delegates
 
-class UIGrid constructor(
+open class UIGrid constructor(
 	x: Int = 0,
 	y: Int = 0,
 	width: Int = -1,
 	height: Int = -1,
-) : IContainerUI {
-
-	var x by Delegates.observable(x) { _, _, _ -> redraw = true }
-	var y by Delegates.observable(y) { _, _, _ -> redraw = true }
-	var width by Delegates.observable(width) { _, _, _ -> redraw = true }
-	var height by Delegates.observable(height) { _, _, _ -> redraw = true }
-
-	private var lastSize: GUISize? = null
-	private var redraw = true
+) : IBaseSizedUI(x, y, width, height), IContainerUI {
 
 	override val ui: MutableList<IUI> = arrayListOf()
 
@@ -28,20 +19,13 @@ class UIGrid constructor(
 		for (ui in ui) ui.update()
 	}
 
-	override fun draw(canvas: IUICanvas) {
-		redraw = false
-		val diff = canvas.diffOf(x, y, width, height)
-		lastSize = diff.size
-		for (ui in ui) ui.draw(diff)
+	override fun whenDraw(canvas: IUICanvas) {
+		for (ui in ui) ui.draw(canvas)
 	}
 
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean {
-		var calcX = x
-		var calcY = y
-		calcX -= this.x
-		calcY -= this.y
-		if (calcX < 0 || calcY < 0 || calcX > lastSize!!.width || calcY > lastSize!!.lines) return false
-		for (ui in ui) if (ui.use(clicker, type, calcX, calcY)) return true
+	override fun whenUse(clicker: Player, type: ClickType, x: Int, y: Int, size: GUISize): Boolean {
+		for (i in ui.indices.reversed())
+			if (ui[i].use(clicker, type, x, y)) return true
 		return false
 	}
 
@@ -63,3 +47,18 @@ class UIGrid constructor(
 	}
 
 }
+
+fun IUIContainer.grid(
+	x: Int = 0,
+	y: Int = 0,
+	width: Int = -1,
+	height: Int = -1,
+) = add(UIGrid(x, y, width, height))
+
+inline fun IUIContainer.grid(
+	x: Int = 0,
+	y: Int = 0,
+	width: Int = -1,
+	height: Int = -1,
+	call: UIGrid.() -> Unit
+) = grid(x, y, width, height).apply(call)

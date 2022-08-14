@@ -7,6 +7,7 @@ interface IUI {
 
 	fun redraw(): Boolean
 	fun update() {}
+	fun updated() {}
 	fun draw(canvas: IUICanvas)
 	fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean = false
 

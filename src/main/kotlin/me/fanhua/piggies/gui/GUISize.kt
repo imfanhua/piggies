@@ -11,4 +11,7 @@ data class GUISize(val width: Int, val lines: Int) {
 
 	operator fun get(x: Int, y: Int): Int = y * width + x
 
+	fun isInside(x: Int, y: Int): Boolean =
+		x > -1 && y > -1 && x < width && y < lines
+
 }

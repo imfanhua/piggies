@@ -6,7 +6,7 @@ import org.bukkit.scoreboard.RenderType
 import org.bukkit.scoreboard.Scoreboard
 
 val MainScoreboard = Bukkit.getScoreboardManager().mainScoreboard
-val NewScoreboard = Bukkit.getScoreboardManager().newScoreboard
+val NewScoreboard get() = Bukkit.getScoreboardManager().newScoreboard
 
 fun Scoreboard.list(id: String, title: String = id, slot: DisplaySlot? = DisplaySlot.PLAYER_LIST, render: RenderType = RenderType.INTEGER)
 	= ListDisplay(this, id, title, slot, render)

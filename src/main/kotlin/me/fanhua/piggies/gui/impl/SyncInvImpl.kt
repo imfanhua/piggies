@@ -4,8 +4,8 @@ import me.fanhua.piggies.Piggies
 import me.fanhua.piggies.gui.GUI
 import me.fanhua.piggies.gui.IBaseGUI
 import me.fanhua.piggies.tools.data.holders.hold
+import me.fanhua.piggies.tools.items.give
 import me.fanhua.piggies.tools.plugins.tick
-import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -45,15 +45,20 @@ internal class SyncInvImpl(player: Player) : IBaseGUI {
 		}
 		val slot = event.slot
 		if (slot >= SIZE) return
-		sync(slot, event.whoClicked)
+		(event.whoClicked as? Player)?.let { sync(slot, it, event.click) }
 	}
 
-	private fun sync(slot: Int, clicker: HumanEntity) {
+	private fun sync(slot: Int, clicker: Player, type: ClickType) {
 		Piggies.tick { ->
 			val inv = (target.orNull ?: return@tick).inventory
 			val item = inv.getItem(slot)?.clone()
-			inv.setItem(slot, clicker.itemOnCursor)
-			clicker.setItemOnCursor(item)
+			if (type.isShiftClick) {
+				inv.setItem(slot, null)
+				item?.let { clicker.give(it) }
+			} else {
+				inv.setItem(slot, clicker.itemOnCursor)
+				clicker.setItemOnCursor(item)
+			}
 		}
 	}
 

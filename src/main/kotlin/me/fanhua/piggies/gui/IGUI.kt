@@ -11,9 +11,16 @@ interface IGUI : IBaseGUI, IUIContainer {
 	fun draw()
 	val isRedrawNeeded: Boolean
 
+	fun doUpdate()
+
+	fun onUpdate(updateHandler: IGUI.() -> Unit): IGUI
+	fun removeUpdateHandler(updateHandler: IGUI.() -> Unit)
+	fun clearUpdateHandlers()
+
 	fun onClose(closeHandler: IGUI.(Player) -> Unit): IGUI
 	fun removeCloseHandler(closeHandler: IGUI.(Player) -> Unit)
 	fun clearCloseHandlers()
+
 	fun clearAllHandlers()
 
 }

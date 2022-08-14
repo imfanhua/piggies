@@ -3,9 +3,9 @@ package me.fanhua.piggies.tools.math
 import kotlinx.serialization.Serializable
 import org.bukkit.Location
 import org.bukkit.World
+import org.bukkit.util.NumberConversions.square
 import org.bukkit.util.Vector
 import kotlin.math.sqrt
-import org.bukkit.util.NumberConversions.square
 
 @Serializable
 data class Pos3I(var x: Int, var y: Int, var z: Int) {

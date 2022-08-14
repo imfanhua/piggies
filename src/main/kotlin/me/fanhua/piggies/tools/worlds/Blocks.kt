@@ -9,10 +9,6 @@ import org.bukkit.block.Block
 import org.bukkit.inventory.ItemStack
 import java.util.stream.Stream
 
-
-object Blocks {
-}
-
 fun Block.breakBy() = breakBy(ItemStack(Material.NETHERITE_PICKAXE))
 fun Block.breakBy(item: ItemStack) = let {
 	playBreakEffect()

@@ -1,26 +1,28 @@
 package me.fanhua.piggies.players.events
 
 import me.fanhua.piggies.Piggies
+import me.fanhua.piggies.plugins.events.CustomEvent
 import me.fanhua.piggies.tools.plugins.fire
 import me.fanhua.piggies.tools.plugins.logger
 import me.fanhua.piggies.tools.plugins.on
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
-import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerEvent
 import org.bukkit.event.player.PlayerKickEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
-class PlayerLeaveEvent(who: Player) : PlayerEvent(who) {
+class PlayerLeaveEvent private constructor(who: Player) : PlayerEvent(who) {
 
-	companion object {
-		private val HANDLERS = HandlerList()
-		@JvmStatic
-		fun getHandlerList() = HANDLERS
+	class Last internal constructor(who: Player) : PlayerEvent(who) {
+		companion object: CustomEvent() { @JvmStatic override fun getHandlerList() = super.getHandlerList() }
+		override fun getHandlers() = HANDLERS
+	}
 
-		val lasts: MutableList<(PlayerLeaveEvent) -> Unit> = arrayListOf()
+	companion object: CustomEvent() {
+
+		@JvmStatic override fun getHandlerList() = super.getHandlerList()
 
 		init {
 			Piggies.on(object: Listener {
@@ -36,8 +38,10 @@ class PlayerLeaveEvent(who: Player) : PlayerEvent(who) {
 			Piggies.logger.info("+ #[PlayerLeaveEvent]")
 		}
 
-		private fun fire(player: Player)
-			= PlayerLeaveEvent(player).fire().let { lasts.forEach { handler -> handler(it) } }
+		fun fire(player: Player) {
+			PlayerLeaveEvent(player).fire()
+			Last(player).fire()
+		}
 
 	}
 

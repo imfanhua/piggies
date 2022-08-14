@@ -3,33 +3,30 @@ package me.fanhua.piggies.gui.ui
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
-import kotlin.properties.Delegates
 
 class UIButton(
 	x: Int,
 	y: Int,
 	icon: ItemStack? = null,
-	var handler: (Player.(ClickType) -> Unit)? = null,
-) : IUI {
+	var handler: ((UIButton, Player, ClickType) -> Unit)? = null,
+) : IBasePosUI(x, y) {
 
-	var x by Delegates.observable(x) { _, _, _ -> redraw = true }
-	var y by Delegates.observable(y) { _, _, _ -> redraw = true }
-
-	var icon by Delegates.observable(icon) { _, _, _ -> redraw = true }
-
-	private var redraw = true
-
-	override fun redraw(): Boolean = redraw
+	var icon by observable(icon)
 
 	override fun draw(canvas: IUICanvas) {
 		redraw = false
 		icon?.let { canvas.draw(x, y, it) }
 	}
 
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean {
-		if (this.x != x || this.y != y) return false
-		handler?.invoke(clicker, type)
-		return true
-	}
+	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean
+		= if (this.x != x || this.y != y) false
+		else true.apply { handler?.invoke(this@UIButton, clicker, type) }
 
 }
+
+fun IUIContainer.button(
+	x: Int,
+	y: Int,
+	icon: ItemStack? = null,
+	handler: ((UIButton, Player, ClickType) -> Unit)? = null,
+) = add(UIButton(x, y, icon, handler))

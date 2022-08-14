@@ -10,16 +10,25 @@ import org.bukkit.inventory.meta.ItemMeta
 import java.util.*
 import kotlin.random.Random
 
+val AIR: ItemStack get() = ItemStack(Material.AIR, 0)
+
 fun Material.item(amount: Int = 1) = ItemStack(this, amount)
 
 inline fun Material.item(amount: Int = 1, call: ItemMeta.() -> Unit) = ItemStack(this, amount).meta(call)
 fun ItemStack.amount(amount: Int) = apply { setAmount(amount) }
 fun ItemStack.clone(amount: Int) = clone().apply { setAmount(amount) }
+fun ItemStack.clone(type: Material) = clone().apply { setType(type) }
+fun ItemStack.clone(type: Material, amount: Int) = clone().apply {
+	setType(type)
+	setAmount(amount)
+}
 
 inline fun ItemStack.meta(call: ItemMeta.() -> Unit) = apply { itemMeta = itemMeta?.apply(call) }
 
 fun <T: ItemMeta> T.name(name: String?) = apply { setDisplayName(name) }
+@Suppress("SpellCheckingInspection")
 fun <T: ItemMeta> T.lores(vararg lore: String) = apply { setLore(lore.toMutableList()) }
+@Suppress("SpellCheckingInspection")
 fun <T: ItemMeta> T.appendLores(vararg lore: String) = apply {
 	setLore((getLore() ?: mutableListOf()).apply { addAll(lore) })
 }
@@ -69,3 +78,6 @@ fun ItemStack.addRandomEnchants(times: Int, max: Boolean): ItemStack = apply {
 }
 fun ItemStack.addRandomEnchants(rate: Double, times: Int, max: Boolean) =
 	if (Random.rate(rate)) addRandomEnchants(times, max) else this
+
+val ItemStack?.isEmpty: Boolean get() = this == null || amount < 1 || type == Material.AIR
+val ItemStack.nullEmpty: ItemStack? get() = if (isEmpty) null else this

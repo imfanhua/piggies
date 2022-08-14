@@ -9,10 +9,12 @@ import java.io.InputStream
 
 abstract class PiggyPlugin: IJavaPlugin, Listener {
 
+	@Suppress("PrivatePropertyName")
 	private var PLUGIN: JavaPlugin? = null
 	override val plugin get() = PLUGIN!!
 
 	internal var coroutine: PluginCoroutine? = null
+	internal var lasts: MutableList<() -> Unit>? = null
 
 	open class Plugin(private val instance: PiggyPlugin) : JavaPlugin() {
 
@@ -23,10 +25,21 @@ abstract class PiggyPlugin: IJavaPlugin, Listener {
 		}
 
 		override fun onDisable() {
+			// Dispose coroutine
 			ok {
 				instance.coroutine?.dispose()
 				instance.coroutine = null
 			}
+
+			// Executes last
+			instance.lasts?.let {
+				it.forEach {
+					ok { it() }
+				}
+			}
+			instance.lasts = null
+
+			// Unload plugin
 			instance.unload()
 			if (instance.PLUGIN == this) instance.PLUGIN = null
 		}

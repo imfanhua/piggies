@@ -5,13 +5,18 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.serializer
 import me.fanhua.piggies.Piggies
-import me.fanhua.piggies.players.events.PlayerLeaveEvent
 import me.fanhua.piggies.parts.impl.SerializerPartFactory
 import me.fanhua.piggies.parts.impl.TempPartFactory
+import me.fanhua.piggies.players.events.PlayerLeaveEvent
+import me.fanhua.piggies.plugins.PluginKey
+import me.fanhua.piggies.plugins.last
 import me.fanhua.piggies.tools.plugins.logger
+import me.fanhua.piggies.tools.plugins.on
 import org.bukkit.Bukkit
-import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
+import org.bukkit.event.Listener
 import java.util.*
 
 object Parts {
@@ -38,6 +43,7 @@ object Parts {
 		fun unloadAll() {
 			parts.forEach { (id, data) -> Bukkit.getPlayer(id)?.let { unload(it, data) } }
 			parts.clear()
+			PARTS.remove(this)
 		}
 
 	}
@@ -45,26 +51,28 @@ object Parts {
 	private val PARTS: MutableList<Part<*>> = arrayListOf()
 
 	init {
-		PlayerLeaveEvent.lasts.add {
-			val player = it.player
-			player.uniqueId.let { id -> PARTS.forEach { part -> part.remove(id, player) } }
-		}
+		Piggies.on(object: Listener {
 
-		//FIXME:
-		// Piggies.lasts.add(::unloadAll)
+			@EventHandler(priority = EventPriority.MONITOR)
+			fun onServerTickEvent(event: PlayerLeaveEvent.Last) {
+				val player = event.player
+				player.uniqueId.let { id -> PARTS.forEach { part -> part.remove(id, player) } }
+			}
+
+		})
 
 		Piggies.logger.info("+ #[Parts]")
 	}
 
 	@Suppress("OPT_IN_USAGE")
-	inline fun <reified P> persistent(key: NamespacedKey, noinline factory: () -> P): IPart<P> = persistent(key, Cbor, factory)
-	inline fun <reified P> persistent(key: NamespacedKey, format: BinaryFormat, noinline factory: () -> P): IPart<P> = persistent(key, format, format.serializersModule.serializer(), factory)
-	fun <P> persistent(key: NamespacedKey, format: BinaryFormat, serializer: KSerializer<P>, factory: () -> P): IPart<P>
-		= new(SerializerPartFactory(key, format, serializer, factory))
-	fun <P> temp(factory: () -> P): IPart<P> = new(TempPartFactory(factory))
-	fun <P> new(factory: IPartFactory<P>): IPart<P> = Part(factory).apply(PARTS::add)
+	inline fun <reified P> persistent(key: PluginKey, noinline factory: () -> P): IPart<P> = persistent(key, Cbor, factory)
+	inline fun <reified P> persistent(key: PluginKey, format: BinaryFormat, noinline factory: () -> P): IPart<P> = persistent(key, format, format.serializersModule.serializer(), factory)
+	fun <P> persistent(key: PluginKey, format: BinaryFormat, serializer: KSerializer<P>, factory: () -> P): IPart<P>
+		= part(SerializerPartFactory(key.key, format, serializer, factory)).apply { key.plugin.last(::unloadAll) }
 
-	private fun unloadAll() =
-		PARTS.forEach(Part<*>::unloadAll)
+	fun <P> temp(factory: () -> P): IPart<P> = part(TempPartFactory(factory))
+	fun <P> new(factory: IPartFactory<P>): IPart<P> = part(factory)
+
+	private fun <P> part(factory: IPartFactory<P>): Part<P> = Part(factory).apply(PARTS::add)
 
 }

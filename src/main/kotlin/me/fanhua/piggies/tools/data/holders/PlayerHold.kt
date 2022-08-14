@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import me.fanhua.piggies.tools.data.serialization.UUIDSerializer
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import java.util.UUID
+import java.util.*
 
 @Serializable
 data class PlayerHold(@Serializable(with = UUIDSerializer::class) val id: UUID) {
