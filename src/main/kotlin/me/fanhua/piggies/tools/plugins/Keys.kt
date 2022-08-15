@@ -7,7 +7,5 @@ import org.bukkit.NamespacedKey
 
 fun IJavaPlugin.key(key: String) = NamespacedKey(plugin, key)
 
-val NamespacedKey.path get() = toString().let { it.substring(it.indexOf(':') + 1) }
-
 fun PiggyPlugin.keyed(key: String) = PluginKey(this, key)
-fun PiggyPlugin.of(key: NamespacedKey) = PluginKey(this, key.path)
+fun PiggyPlugin.of(key: NamespacedKey) = PluginKey(this, key.key)

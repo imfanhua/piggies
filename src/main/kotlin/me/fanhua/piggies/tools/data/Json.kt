@@ -6,6 +6,8 @@ import java.io.InputStream
 @Suppress("OPT_IN_USAGE")
 fun InputStream?.asJson(): JsonElement? = this?.let(Json::decodeFromStream)
 
+val JsonElement?.asObject: JsonObject? get() = this as? JsonObject
+val JsonElement?.asArray: JsonArray? get() = this as? JsonArray
 operator fun JsonElement?.get(key: String): JsonElement? = (this as? JsonObject)?.let { it[key] }
 operator fun JsonElement?.get(key: Int): JsonElement? = (this as? JsonArray)?.let { it[key] }
 

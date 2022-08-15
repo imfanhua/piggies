@@ -1,0 +1,5 @@
+{
+	"::block.minecraft.$1_wall_banner": "::block\\.minecraft\\.(\\w*)_banner",
+	"advancements.husbandry.bred_all_animals.title": "advancements.husbandry.breed_all_animals.title",
+	"advancements.husbandry.obtain_netherite_hoe.title": "advancements.husbandry.netherite_hoe.title"
+}
