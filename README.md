@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-	compileOnly "com.github.imfanhua:piggies:3.7.6"
+	compileOnly "com.github.imfanhua:piggies:3.7.7"
 }
 ```
 
