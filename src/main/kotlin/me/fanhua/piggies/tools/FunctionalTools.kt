@@ -50,7 +50,7 @@ inline fun <T, B> Collection<T>.streamFrom(value: B, transform: B.(T) -> B): B {
 	return last
 }
 
-inline fun <T: Map<*, *>, R> T.ifNotEmpty(transform: (T) -> T): T =
+inline fun <T: Map<*, *>> T.ifNotEmpty(transform: (T) -> T): T =
 	if (isNotEmpty()) transform(this) else this
 
 inline fun <T> Array<T>.ifNotEmpty(transform: (Array<T>) -> Array<T>): Array<T> =
