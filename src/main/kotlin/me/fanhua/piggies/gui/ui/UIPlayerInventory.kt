@@ -17,7 +17,7 @@ class UIPlayerInventory(
 	y: Int = 0,
 	width: Int = -1,
 	height: Int = -1,
-	var handler: ((Player, ClickType, Int) -> Unit)? = null,
+	var handler: ((Player, ActionType, Int) -> Unit)? = null,
 ) : IBaseSizedUI(x, y, width, height) {
 
 	companion object {
@@ -32,7 +32,7 @@ class UIPlayerInventory(
 		y: Int = 0,
 		width: Int = -1,
 		height: Int = -1,
-		handler: (Player.(ClickType, Int) -> Unit)? = null,
+		handler: (Player.(ActionType, Int) -> Unit)? = null,
 	): this(target.hold, x, y, width, height, handler)
 
 	override fun update() {
@@ -60,13 +60,13 @@ class UIPlayerInventory(
 		}
 	}
 
-	override fun whenUse(clicker: Player, type: ClickType, x: Int, y: Int, size: GUISize): Boolean
+	override fun whenUse(clicker: Player, type: ActionType, x: Int, y: Int, size: GUISize): Boolean
 		= size[x, y].let {
 			if (it >= SIZE) false
 			else true.apply { if (handler != null) used(clicker.hold, type, it) }
 		}
 
-	private fun used(clicker: PlayerHold, type: ClickType, slot: Int) = Piggies.tick { ->
+	private fun used(clicker: PlayerHold, type: ActionType, slot: Int) = Piggies.tick { ->
 		clicker.orNull?.let {
 			if (GUI[it].contains(this)) handler?.invoke(it, type, slot)
 		}
@@ -80,7 +80,7 @@ fun IUIContainer.inv(
 	y: Int = 0,
 	width: Int = -1,
 	height: Int = -1,
-	handler: ((Player, ClickType, Int) -> Unit)? = null,
+	handler: ((Player, ActionType, Int) -> Unit)? = null,
 ) = add(UIPlayerInventory(target, x, y, width, height, handler))
 
 fun IUIContainer.inv(
@@ -89,5 +89,5 @@ fun IUIContainer.inv(
 	y: Int = 0,
 	width: Int = -1,
 	height: Int = -1,
-	handler: ((Player, ClickType, Int) -> Unit)? = null,
+	handler: ((Player, ActionType, Int) -> Unit)? = null,
 ) = add(UIPlayerInventory(target, x, y, width, height, handler))

@@ -9,6 +9,6 @@ interface IUI {
 	fun update() {}
 	fun updated() {}
 	fun draw(canvas: IUICanvas)
-	fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean = false
+	fun use(clicker: Player, type: ActionType, x: Int, y: Int): Boolean = false
 
 }

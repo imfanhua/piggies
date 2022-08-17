@@ -68,6 +68,8 @@ fun Inventory.give(drop: Location, vararg items: ItemStack): Unit = addItem(*ite
 	}
 }
 
+fun ItemStack.addTo(player: Player): Map<Int, ItemStack> = addTo(player.inventory)
+fun ItemStack.addTo(inventory: Inventory): Map<Int, ItemStack> = inventory.addItem(this)
 fun Array<ItemStack>.addTo(player: Player): Map<Int, ItemStack> = addTo(player.inventory)
 fun Array<ItemStack>.addTo(inventory: Inventory): Map<Int, ItemStack> = inventory.addItem(*this.map(ItemStack::clone).toTypedArray())
 fun Collection<ItemStack>.addTo(player: Player): Map<Int, ItemStack> = addTo(player.inventory)

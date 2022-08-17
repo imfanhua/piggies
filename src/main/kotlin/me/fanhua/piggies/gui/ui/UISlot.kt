@@ -4,14 +4,13 @@ import me.fanhua.piggies.Piggies
 import me.fanhua.piggies.gui.GUI
 import me.fanhua.piggies.gui.IGUI
 import me.fanhua.piggies.gui.contains
+import me.fanhua.piggies.gui.ui.ActionType.*
 import me.fanhua.piggies.tools.data.holders.PlayerHold
 import me.fanhua.piggies.tools.data.holders.hold
 import me.fanhua.piggies.tools.items.*
 import me.fanhua.piggies.tools.plugins.tick
 import me.fanhua.piggies.tools.void
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
-import org.bukkit.event.inventory.ClickType.*
 import org.bukkit.inventory.ItemStack
 
 class UISlot(
@@ -19,15 +18,15 @@ class UISlot(
 	y: Int,
 	icon: ItemStack? = null,
 	placed: ItemStack? = null,
-	var place: ((UISlot, Player, ClickType) -> Unit)? = null,
+	var place: ((UISlot, Player, ActionType) -> Unit)? = null,
 	var changed: ((UISlot, ItemStack?) -> Unit)? = null,
 ) : IBasePosUI(x, y) {
 
 	object Slot {
 
-		val SWAP: (UISlot, Player, ClickType) -> Unit = ::swap
+		val SWAP: (UISlot, Player, ActionType) -> Unit = ::swap
 
-		fun swap(ui: UISlot, clicker: Player, type: ClickType) = swap(ui, clicker.hold).void()
+		fun swap(ui: UISlot, clicker: Player, type: ActionType) = swap(ui, clicker.hold).void()
 
 		private fun swap(ui: UISlot, clicker: PlayerHold) = Piggies.tick { ->
 			clicker.orNull?.let {
@@ -48,20 +47,20 @@ class UISlot(
 		val ONLY_TYPE = new(::amount, ::type)
 		val ONLY_ONE_TYPE = new(::type, ::one)
 
-		fun new(vararg filters: (placed: ItemStack?, item: ItemStack?, clicker: Player, type: ClickType) -> ItemStack?): (ui: UISlot, clicker: Player, type: ClickType) -> Unit = { ui, clicker, type ->
+		fun new(vararg filters: (placed: ItemStack?, item: ItemStack?, clicker: Player, type: ActionType) -> ItemStack?): (ui: UISlot, clicker: Player, type: ActionType) -> Unit = { ui, clicker, type ->
 			var item = clicker.itemOnCursor.clone().nullEmpty
 			val placed = ui.placed
 			filters.forEach { item = it(placed, item, clicker, type) }
 			ui.placed = item
 		}
 
-		fun one(placed: ItemStack?, item: ItemStack?, clicker: Player, type: ClickType): ItemStack?
+		fun one(placed: ItemStack?, item: ItemStack?, clicker: Player, type: ActionType): ItemStack?
 			= item?.clone(1)
 
-		fun type(placed: ItemStack?, item: ItemStack?, clicker: Player, type: ClickType): ItemStack?
+		fun type(placed: ItemStack?, item: ItemStack?, clicker: Player, type: ActionType): ItemStack?
 			= item?.let { ItemStack(it.type, it.amount) }
 
-		fun amount(placed: ItemStack?, item: ItemStack?, clicker: Player, click: ClickType): ItemStack?
+		fun amount(placed: ItemStack?, item: ItemStack?, clicker: Player, click: ActionType): ItemStack?
 			= when (click) {
 				LEFT -> item ?: placed?.clone()?.apply { if (amount < type.maxStackSize) amount++ }
 				SHIFT_LEFT ->
@@ -84,7 +83,7 @@ class UISlot(
 		(placed ?: icon)?.let { canvas.draw(x, y, it) }
 	}
 
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean
+	override fun use(clicker: Player, type: ActionType, x: Int, y: Int): Boolean
 		= if (this.x != x || this.y != y) false
 		else true.apply { place?.invoke(this@UISlot, clicker, type) }
 
@@ -107,7 +106,7 @@ fun IUIContainer.slot(
 	y: Int,
 	icon: ItemStack? = null,
 	placed: ItemStack? = null,
-	place: ((UISlot, Player, ClickType) -> Unit)? = UISlot.Slot.SWAP,
+	place: ((UISlot, Player, ActionType) -> Unit)? = UISlot.Slot.SWAP,
 	changed: ((UISlot, ItemStack?) -> Unit)? = null,
 ) = add(UISlot(x, y, icon, placed, place, changed))
 
@@ -116,7 +115,7 @@ fun IUIContainer.tag(
 	y: Int,
 	icon: ItemStack? = null,
 	placed: ItemStack? = null,
-	place: ((UISlot, Player, ClickType) -> Unit)? = UISlot.Tag.TAG,
+	place: ((UISlot, Player, ActionType) -> Unit)? = UISlot.Tag.TAG,
 	changed: ((UISlot, ItemStack?) -> Unit)? = null,
 ) = add(UISlot(x, y, icon, placed, place, changed))
 
@@ -124,6 +123,6 @@ fun IUIContainer.tag(
 	x: Int,
 	y: Int,
 	icon: ItemStack? = null,
-	place: ((UISlot, Player, ClickType) -> Unit)? = UISlot.Tag.TAG,
+	place: ((UISlot, Player, ActionType) -> Unit)? = UISlot.Tag.TAG,
 	changed: ((UISlot, ItemStack?) -> Unit)? = null,
 ) = add(UISlot(x, y, icon, null, place, changed))

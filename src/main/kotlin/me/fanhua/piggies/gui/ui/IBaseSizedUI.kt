@@ -16,7 +16,7 @@ abstract class IBaseSizedUI(x: Int, y: Int, width: Int, height: Int) : IBasePosU
 		}
 	}
 
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean
+	override fun use(clicker: Player, type: ActionType, x: Int, y: Int): Boolean
 		= size.let { size ->
 			if (size?.isInside(x - this.x, y - this.y) != true) false
 			else whenUse(clicker, type, x - this.x, y - this.y, size)

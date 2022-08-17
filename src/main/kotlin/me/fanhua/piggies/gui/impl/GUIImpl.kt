@@ -2,6 +2,7 @@ package me.fanhua.piggies.gui.impl
 
 import me.fanhua.piggies.gui.IGUI
 import me.fanhua.piggies.gui.IInventoryFactory
+import me.fanhua.piggies.gui.ui.ActionType
 import me.fanhua.piggies.gui.ui.IUI
 import me.fanhua.piggies.ticks.Ticks
 import me.fanhua.piggies.tools.void
@@ -74,7 +75,7 @@ internal class GUIImpl(factory: IInventoryFactory, override val title: String) :
 		val slot = event.slot
 		val y = slot / size.width
 		val x = slot - y * size.width
-		val type = event.click
+		val type = ActionType[event.click, event.hotbarButton]
 		for (i in ui.indices.reversed())
 			if (ui[i].use(player, type, x, y)) break
 	}

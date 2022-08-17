@@ -15,7 +15,7 @@ class UISwitch(
 	iconOff: ItemStack? = null,
 	on: Boolean = false,
 	var disabled: Boolean = false,
-	var handler: (Player.(ClickType, UISwitch) -> Boolean)? = null,
+	var handler: ((Player, ActionType, UISwitch) -> Boolean)? = null,
 	var changed: ((UISwitch, Boolean) -> Unit)? = null,
 ) : IBasePosUI(x, y) {
 
@@ -29,7 +29,7 @@ class UISwitch(
 		(if (on) iconOn else iconOff)?.let { canvas.draw(x, y, it) }
 	}
 
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean
+	override fun use(clicker: Player, type: ActionType, x: Int, y: Int): Boolean
 		= if (this.x != x || this.y != y) false
 		else true.apply {
 			if (!disabled && handler?.invoke(clicker, type, this@UISwitch) != false) on = !on
@@ -42,7 +42,7 @@ class UISwitch(
 	fun off() = apply { on = false }
 	fun toggle() = apply { on = !on }
 
-	fun onUse(handler: Player.(ClickType, UISwitch) -> Boolean) = apply {
+	fun onUse(handler: (Player, ActionType, UISwitch) -> Boolean) = apply {
 		this.handler = handler
 	}
 
@@ -55,7 +55,7 @@ fun IUIContainer.switch(
 	iconOff: ItemStack? = null,
 	on: Boolean = false,
 	disabled: Boolean = false,
-	handler: (Player.(ClickType, UISwitch) -> Boolean)? = null,
+	handler: ((Player, ActionType, UISwitch) -> Boolean)? = null,
 	changed: ((UISwitch, Boolean) -> Unit)? = null,
 ) = add(UISwitch(x, y, iconOn, iconOff, on, disabled, handler, changed))
 
@@ -65,7 +65,7 @@ fun IUIContainer.switch(
 	icon: ItemStack,
 	on: Boolean = false,
 	disabled: Boolean = false,
-	handler: (Player.(ClickType, UISwitch) -> Boolean)? = null,
+	handler: ((Player, ActionType, UISwitch) -> Boolean)? = null,
 	changed: ((UISwitch, Boolean) -> Unit)? = null,
 ) = switch(x, y,
 	icon.clone().suffix("§a+").enchanted,
@@ -79,7 +79,7 @@ fun IUIContainer.switch(
 	on: Boolean = false,
 	off: Material,
 	disabled: Boolean = false,
-	handler: (Player.(ClickType, UISwitch) -> Boolean)? = null,
+	handler: ((Player, ActionType, UISwitch) -> Boolean)? = null,
 	changed: ((UISwitch, Boolean) -> Unit)? = null,
 ) = switch(x, y,
 	icon.clone(off).suffix("§a+").enchanted,

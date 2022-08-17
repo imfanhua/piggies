@@ -39,7 +39,7 @@ class UISelection constructor(
 			(if (isSelected) onIcon else offIcon)?.let { canvas.draw(x, y, it) }
 		}
 
-		override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean
+		override fun use(clicker: Player, type: ActionType, x: Int, y: Int): Boolean
 			= if (this.x != x || this.y != y) false
 			else true.apply { click(index) }
 

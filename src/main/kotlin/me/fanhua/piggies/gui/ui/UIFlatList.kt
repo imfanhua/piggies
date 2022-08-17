@@ -34,7 +34,7 @@ abstract class UIFlatList<T>(
 		}
 	}
 
-	override fun whenUse(clicker: Player, type: ClickType, x: Int, y: Int, size: GUISize): Boolean {
+	override fun whenUse(clicker: Player, type: ActionType, x: Int, y: Int, size: GUISize): Boolean {
 		val list = list
 		if (list.isNullOrEmpty()) return false
 		val pos = size[x, y]
@@ -42,6 +42,6 @@ abstract class UIFlatList<T>(
 	}
 
 	protected abstract fun draw(canvas: IUICanvas, x: Int, y: Int, value: T, index: Int)
-	protected abstract fun use(clicker: Player, type: ClickType, x: Int, y: Int, value: T, index: Int): Boolean
+	protected abstract fun use(clicker: Player, type: ActionType, x: Int, y: Int, value: T, index: Int): Boolean
 
 }

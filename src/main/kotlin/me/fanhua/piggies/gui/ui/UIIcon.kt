@@ -17,7 +17,7 @@ class UIIcon(
 		icon?.let { canvas.draw(x, y, it) }
 	}
 
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean = false
+	override fun use(clicker: Player, type: ActionType, x: Int, y: Int): Boolean = false
 
 }
 

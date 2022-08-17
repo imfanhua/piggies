@@ -23,7 +23,7 @@ open class UIGrid constructor(
 		for (ui in ui) ui.draw(canvas)
 	}
 
-	override fun whenUse(clicker: Player, type: ClickType, x: Int, y: Int, size: GUISize): Boolean {
+	override fun whenUse(clicker: Player, type: ActionType, x: Int, y: Int, size: GUISize): Boolean {
 		for (i in ui.indices.reversed())
 			if (ui[i].use(clicker, type, x, y)) return true
 		return false

@@ -17,7 +17,7 @@ class UIImage(
 		image?.draw(canvas, x, y)
 	}
 
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean = false
+	override fun use(clicker: Player, type: ActionType, x: Int, y: Int): Boolean = false
 
 }
 

@@ -19,13 +19,13 @@ abstract class IBasePosUI(x: Int, y: Int) : IBaseUI() {
 		}
 	}
 
-	override fun use(clicker: Player, type: ClickType, x: Int, y: Int): Boolean
+	override fun use(clicker: Player, type: ActionType, x: Int, y: Int): Boolean
 		= size.let { size ->
 			if (size == null || this.x > x || this.y > y) false
 			else whenUse(clicker, type, x - this.x, y - this.y, size)
 		}
 
 	protected open fun whenDraw(canvas: IUICanvas) {}
-	protected open fun whenUse(clicker: Player, type: ClickType, x: Int, y: Int, size: GUISize): Boolean = false
+	protected open fun whenUse(clicker: Player, type: ActionType, x: Int, y: Int, size: GUISize): Boolean = false
 
 }

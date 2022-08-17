@@ -73,7 +73,7 @@ abstract class UIList<T>(
 		draw(canvas, size.width - 1, size.lines - 1, page, total)
 	}
 
-	override fun whenUse(clicker: Player, type: ClickType, x: Int, y: Int, size: GUISize): Boolean {
+	override fun whenUse(clicker: Player, type: ActionType, x: Int, y: Int, size: GUISize): Boolean {
 		val list = list
 		if (list.isNullOrEmpty()) return false
 		val pos = size[x, y]
@@ -95,8 +95,8 @@ abstract class UIList<T>(
 	}
 
 	protected abstract fun draw(canvas: IUICanvas, x: Int, y: Int, value: T, index: Int)
-	protected abstract fun use(clicker: Player, type: ClickType, x: Int, y: Int, value: T, index: Int): Boolean
-	protected open fun use(clicker: Player, type: ClickType): Boolean {
+	protected abstract fun use(clicker: Player, type: ActionType, x: Int, y: Int, value: T, index: Int): Boolean
+	protected open fun use(clicker: Player, type: ActionType): Boolean {
 		if (type.isLeftClick) nextPage() else if (type.isRightClick) prevPage()
 		return true
 	}
