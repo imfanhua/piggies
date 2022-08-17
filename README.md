@@ -7,14 +7,14 @@
 [![](https://img.shields.io/badge/License-MIT-A31F34?logo=Kotlin&logoColor=ffffff&style=for-the-badge)](https://github.com/imfanhua/piggies/blob/master/LICENSE.txt)
 
 ## 💡 简介
-一个自用[^1]的 Spigot/Paper Kotlin 插件核心
+一个自用的 Spigot/Paper Kotlin 插件核心
 
 ## 🖊️ 使用
 
 ### 模板
 https://github.com/imfanhua/piggies-template
 
-### 依赖[^2]
+### 依赖[^1]
 ```gradle
 repositories {
 	maven { url 'https://jitpack.io' }
@@ -32,9 +32,8 @@ repositories {
 }
 
 dependencies {
-	compileOnly "com.github.imfanhua:piggies:3.7.1"
+	compileOnly "com.github.imfanhua:piggies:3.7.2"
 }
 ```
 
-[^1]: 懒到没写注释
-[^2]: [🗃️所有可用的版本](https://github.com/imfanhua/piggies/tags)
+[^1]: [🗃️所有可用的版本](https://github.com/imfanhua/piggies/tags)
