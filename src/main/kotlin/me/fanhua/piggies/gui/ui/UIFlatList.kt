@@ -3,7 +3,6 @@ package me.fanhua.piggies.gui.ui
 import me.fanhua.piggies.gui.GUISize
 import me.fanhua.piggies.tools.vars.Cache
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 
 abstract class UIFlatList<T>(
 	list: List<T>? = null,

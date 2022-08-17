@@ -2,7 +2,6 @@ package me.fanhua.piggies.gui.ui
 
 import me.fanhua.piggies.gui.image.GUIImage
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 
 class UIImage(
 	x: Int = 0,

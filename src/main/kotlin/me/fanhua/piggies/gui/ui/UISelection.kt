@@ -5,7 +5,6 @@ import me.fanhua.piggies.tools.items.enchanted
 import me.fanhua.piggies.tools.items.suffix
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
 class UISelection constructor(

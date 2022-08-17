@@ -8,7 +8,6 @@ import me.fanhua.piggies.tools.data.holders.PlayerHold
 import me.fanhua.piggies.tools.data.holders.hold
 import me.fanhua.piggies.tools.plugins.tick
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
 class UIPlayerInventory(

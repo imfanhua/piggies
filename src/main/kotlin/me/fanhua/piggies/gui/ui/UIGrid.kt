@@ -2,7 +2,6 @@ package me.fanhua.piggies.gui.ui
 
 import me.fanhua.piggies.gui.GUISize
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 
 open class UIGrid constructor(
 	x: Int = 0,

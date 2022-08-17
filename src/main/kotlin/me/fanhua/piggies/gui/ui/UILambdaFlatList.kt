@@ -1,7 +1,6 @@
 package me.fanhua.piggies.gui.ui
 
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 
 class UILambdaFlatList<T>(
 	list: List<T>? = null,

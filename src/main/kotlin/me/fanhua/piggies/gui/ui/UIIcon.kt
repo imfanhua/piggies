@@ -1,7 +1,6 @@
 package me.fanhua.piggies.gui.ui
 
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
 class UIIcon(
