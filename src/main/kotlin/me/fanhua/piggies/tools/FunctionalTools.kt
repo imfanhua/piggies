@@ -38,13 +38,13 @@ inline fun <T, B> Array<T>.streamTo(starter: (T) -> B, transform: B.(T) -> B): B
 inline fun <T, B> Collection<T>.streamTo(starter: (T) -> B, transform: B.(T) -> B): B
 	= streamOrNull(starter, transform)!!
 
-inline fun <T, B> Array<T>.streamTo(value: B, transform: B.(T) -> B): B {
+inline fun <T, B> Array<T>.streamFrom(value: B, transform: B.(T) -> B): B {
 	var last: B = value
 	forEach { last = transform(last, it) }
 	return last
 }
 
-inline fun <T, B> Collection<T>.streamTo(value: B, transform: B.(T) -> B): B {
+inline fun <T, B> Collection<T>.streamFrom(value: B, transform: B.(T) -> B): B {
 	var last: B = value
 	forEach { last = transform(last, it) }
 	return last
