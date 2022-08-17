@@ -31,3 +31,18 @@ inline fun <T, B> Collection<T>.streamOrNull(starter: (T) -> B, transform: B.(T)
 	forEach { last = last.let { last -> if (last == null) starter(it) else transform(last, it) } }
 	return last
 }
+
+inline fun <T, B> Array<T>.streamTo(starter: (T) -> B, transform: B.(T) -> B): B?
+	= streamOrNull(starter, transform)!!
+
+inline fun <T, B> Collection<T>.streamTo(starter: (T) -> B, transform: B.(T) -> B): B?
+	= streamOrNull(starter, transform)!!
+
+inline fun <T: Map<*, *>> T.ifNotEmpty(transform: (T) -> T): T =
+	if (isNotEmpty()) transform(this) else this
+
+inline fun <T> Array<T>.ifNotEmpty(transform: (Array<T>) -> Array<T>): Array<T> =
+	if (isNotEmpty()) transform(this) else this
+
+inline fun <T: Collection<*>> T.ifNotEmpty(transform: (T) -> T): T =
+	if (isNotEmpty()) transform(this) else this
