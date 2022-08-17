@@ -57,7 +57,7 @@ fun Inventory.remove1Slot(item: ItemStack): Boolean = indexOf(item).let {
 	if (it == -1) false else true.apply { setItem(it, null) }
 }
 
-fun Player.give(vararg items: ItemStack): Unit = inventory.give(location, *items)
+fun Player.give(vararg items: ItemStack): Unit = inventory.give(location, *items.map(ItemStack::clone).toTypedArray())
 
 fun Inventory.give(drop: Location, vararg items: ItemStack): Unit = addItem(*items.map(ItemStack::clone).toTypedArray()).let {
 	if (it.isNotEmpty()) {
@@ -68,7 +68,7 @@ fun Inventory.give(drop: Location, vararg items: ItemStack): Unit = addItem(*ite
 }
 
 fun ItemStack.addTo(player: Player): Map<Int, ItemStack> = addTo(player.inventory)
-fun ItemStack.addTo(inventory: Inventory): Map<Int, ItemStack> = inventory.addItem(this)
+fun ItemStack.addTo(inventory: Inventory): Map<Int, ItemStack> = inventory.addItem(clone())
 fun Array<ItemStack>.addTo(player: Player): Map<Int, ItemStack> = addTo(player.inventory)
 fun Array<ItemStack>.addTo(inventory: Inventory): Map<Int, ItemStack> = inventory.addItem(*this.map(ItemStack::clone).toTypedArray())
 fun Collection<ItemStack>.addTo(player: Player): Map<Int, ItemStack> = addTo(player.inventory)
