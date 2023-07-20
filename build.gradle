@@ -1,3 +1,6 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
 	id "java-library"
 	id "maven-publish"
@@ -25,7 +28,7 @@ kotlin {
 	}
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+tasks.withType(KotlinCompile).configureEach {
 	kotlinOptions {
 		jvmTarget = "17"
 	}
@@ -34,13 +37,10 @@ dependencies {
 	compileOnly "io.papermc.paper:paper-api:$bukkit_version"
 
 	implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 	implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
 	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutines_version"
-	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutines_version"
 
 	implementation "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:$serialization_version"
 	implementation "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:$serialization_version"
@@ -60,7 +60,7 @@ java {
 processResources {
 	duplicatesStrategy DuplicatesStrategy.INCLUDE
 	from ("${project.rootDir}/src/main/resources") {
-		filter org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+		filter ReplaceTokens, tokens: [
 				"VERSION": project.version,
 				"VERSION:KOTLIN": kotlin_version,
 				"VERSION:COROUTINES": coroutines_version,
@@ -92,9 +92,5 @@ artifacts {
 }
 
 publishing {
-	publications {
-		maven(MavenPublication) {
-			from components.java
-		}
-	}
+	publications {}
 }
