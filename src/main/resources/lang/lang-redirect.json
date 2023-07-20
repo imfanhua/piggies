@@ -1,5 +1,8 @@
 {
-	"::block.minecraft.$1_wall_banner": "::block\\.minecraft\\.(\\w*)_banner",
+	"::block.minecraft.$1_wall_banner": "::block.minecraft.(\\w*)_banner",
+	"::item.minecraft.$1_armor_trim_smithing_template": "::trim_pattern.minecraft.(\\w*)",
+	"item.minecraft.netherite_upgrade_smithing_template": "upgrade.minecraft.netherite_upgrade",
 	"advancements.husbandry.bred_all_animals.title": "advancements.husbandry.breed_all_animals.title",
-	"advancements.husbandry.obtain_netherite_hoe.title": "advancements.husbandry.netherite_hoe.title"
+	"advancements.husbandry.obtain_netherite_hoe.title": "advancements.husbandry.netherite_hoe.title",
+	"advancements.adventure.read_power_of_chiseled_bookshelf.title": "advancements.adventure.read_power_from_chiseled_bookshelf.title"
 }
